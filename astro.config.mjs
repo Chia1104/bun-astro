@@ -7,7 +7,7 @@ import node from "@astrojs/node";
 export default defineConfig({
   integrations: [react()],
   output: "server",
-  server: { port: process.env.PORT ? Number(process.env.PORT) : undefined },
+  // outDir: "build",
   adapter: node({
     mode: "standalone",
   }),

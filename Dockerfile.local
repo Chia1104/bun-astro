@@ -33,4 +33,4 @@ ENV PORT=8080 \
 
 EXPOSE 8080        
 
-CMD ["bun", "run", "--bun", "./dist/server/entry.mjs"]
+CMD ["bun", "./dist/server/entry.mjs"]

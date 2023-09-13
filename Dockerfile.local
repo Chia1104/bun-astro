@@ -1,0 +1,36 @@
+FROM --platform=amd64 oven/bun:latest as runner
+
+FROM --platform=amd64 node:18-slim as node-base
+
+WORKDIR /app
+
+COPY package.json bun.lockb ./
+COPY --from=runner /usr/local/bin/bun /usr/local/bin
+COPY --from=runner /usr/local/bin/bunx /usr/local/bin
+
+FROM node-base AS prod-deps
+RUN bun install --production
+
+FROM node-base AS build-deps
+RUN bun install
+
+FROM build-deps AS builder
+COPY . .
+RUN bun run build
+
+# where is dist?
+RUN ls .   
+
+FROM runner    
+
+WORKDIR /app
+
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+ENV PORT=8080 \
+    PUBLIC_RUNTIME_ENV=bun
+
+EXPOSE 8080        
+
+CMD ["bun", "run", "--bun", "./dist/server/entry.mjs"]

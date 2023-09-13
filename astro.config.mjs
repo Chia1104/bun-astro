@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 
 import node from "@astrojs/node";
@@ -7,8 +7,8 @@ import node from "@astrojs/node";
 export default defineConfig({
   integrations: [react()],
   output: "server",
-  server: { port: process.env.PORT },
+  server: { port: process.env.PORT ? Number(process.env.PORT) : undefined },
   adapter: node({
-    mode: "standalone"
-  })
+    mode: "standalone",
+  }),
 });

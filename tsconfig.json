@@ -4,7 +4,7 @@
     "types": [
       "bun-types"
     ],
-    // "jsx": "react-jsx",
-    // "jsxImportSource": "react"
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }

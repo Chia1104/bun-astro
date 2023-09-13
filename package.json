@@ -1,7 +1,5 @@
 {
   "name": "bun-astro",
-  "type": "module",
-  "module": "dist/server/entry.mjs",
   "version": "0.0.1",
   "scripts": {
     "dev": "bun --bun astro dev",
@@ -16,6 +14,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "astro": "^3.0.13",
+    "ky": "^1.0.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

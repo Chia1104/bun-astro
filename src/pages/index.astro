@@ -1,24 +1,45 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import ky, { type Options, type HTTPError, type SearchParamsOption } from "ky";
 
-const getRuntime = () => {
-  try {
-    return Bun.env.PUBLIC_RUNTIME_ENV ?? "ENV NOT SET";
-  } catch (e: any) {
-    return `Node (ERROR: ${e.message})`;
-  }
-};
-const getPassword = async () => {
-  try {
-    const password = "super-secure-pa$$word";
-    return await Bun.password.hash(password);
-  } catch (e: any) {
-    return `ERROR: ${e.message}`;
-  }
+function getOrigin(request: Request): string {
+	return new URL(request.url).origin;
+}
+
+const request = () => {
+  return ky.extend({
+	prefixUrl: getOrigin(Astro.request),
+    timeout: 10000,
+    credentials: "include",
+    hooks: {
+      beforeRequest: [
+        (request) => {
+          request.headers.set("Content-Type", "application/json");
+        },
+      ],
+    },
+  });
 };
 
-const password = await getPassword();
+const get = async <
+  T = unknown,
+  U extends SearchParamsOption = SearchParamsOption,
+>(
+  url: string,
+  data?: U,
+  opts?: Options
+): Promise<T> => {
+  const urlWithoutStartSlash = url.replace(/^\//, "");
+  return await request()
+    .get(urlWithoutStartSlash, { searchParams: data, ...opts })
+    .json();
+};
+
+const data = await get<{
+	serverRuntime: string,
+	hashedPassword: string
+}>("api/bun");
 ---
 
 <Layout title="Welcome to Astro.">
@@ -51,7 +72,7 @@ const password = await getPassword();
         </linearGradient>
       </defs>
     </svg>
-    <h1>Server runtime: {getRuntime()}</h1>
+    <h1>Server runtime: {data.serverRuntime}</h1>
     <p class="instructions">
       To get started, open the directory <code>src/pages</code> in your project.<br
       />
@@ -81,7 +102,7 @@ const password = await getPassword();
       />
     </ul>
 	<div class="code">
-		{password} (Using `Bun.password.hash()`)
+		{data.hashedPassword} (Using `Bun.password.hash()`)
 	</div>
   </main>
 </Layout>

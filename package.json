@@ -1,7 +1,6 @@
 {
   "name": "bun-astro",
   "type": "module",
-  "module": "dist/server/entry.mjs",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",

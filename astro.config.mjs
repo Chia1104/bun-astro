@@ -5,7 +5,7 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  // integrations: [react()],
   output: "server",
   // outDir: "build",
   adapter: node({

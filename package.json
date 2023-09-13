@@ -4,7 +4,7 @@
   "module": "dist/server/entry.mjs",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bun --bun astro dev",
     "start": "bun ./dist/server/entry.mjs",
     "build": "bun --bun astro build",
     "preview": "astro preview",

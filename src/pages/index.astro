@@ -4,12 +4,12 @@ import Card from "../components/Card.astro";
 import ky, { type Options, type HTTPError, type SearchParamsOption } from "ky";
 
 function getOrigin(request: Request): string {
-	return new URL(request.url).origin;
+  return new URL(request.url).origin;
 }
 
 const request = () => {
   return ky.extend({
-	prefixUrl: getOrigin(Astro.request),
+    prefixUrl: getOrigin(Astro.request),
     timeout: 10000,
     credentials: "include",
     hooks: {
@@ -37,8 +37,8 @@ const get = async <
 };
 
 const data = await get<{
-	serverRuntime: string,
-	hashedPassword: string
+  serverRuntime: string;
+  hashedPassword: string;
 }>("api/bun");
 ---
 
@@ -101,9 +101,9 @@ const data = await get<{
         body="Come say hi to our amazing Discord community. ❤️"
       />
     </ul>
-	<div class="code">
-		{data.hashedPassword} (Using `Bun.password.hash()`)
-	</div>
+    <div class="code">
+      {data.hashedPassword} (Using `Bun.password.hash()`)
+    </div>
   </main>
 </Layout>
 
@@ -118,14 +118,14 @@ const data = await get<{
     line-height: 1.6;
   }
   .code {
-	display: flex;
-	color: aliceblue;
+    display: flex;
+    color: aliceblue;
     padding: 1rem;
     width: 800px;
     max-width: calc(100% - 2rem);
-	word-break: break-all;
-	font-size: 15px;
-	line-height: 1.4;
+    word-break: break-all;
+    font-size: 15px;
+    line-height: 1.4;
   }
   .astro-a {
     position: absolute;

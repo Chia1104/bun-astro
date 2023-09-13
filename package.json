@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "bun --bun astro dev",
+    "node:dev": "astro dev",
     "start": "bun ./dist/server/entry.mjs",
+    "node:start": "node ./dist/server/entry.mjs",
     "build": "bun --bun astro build",
+    "node:build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

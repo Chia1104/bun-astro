@@ -1,6 +1,6 @@
-FROM --platform=amd64 oven/bun:latest as runner
+FROM --platform=linux/amd64 oven/bun:latest as runner
 
-FROM --platform=amd64 node:18-slim as node-base
+FROM --platform=linux/amd64 node:18-slim as node-base
 
 WORKDIR /app
 
@@ -8,13 +8,13 @@ COPY package.json bun.lockb ./
 COPY --from=runner /usr/local/bin/bun /usr/local/bin
 COPY --from=runner /usr/local/bin/bunx /usr/local/bin
 
-FROM node-base AS prod-deps
-RUN bun install --production
+FROM node-base as prod-deps
+RUN bun install --production --frozen-lockfile
 
-FROM node-base AS build-deps
-RUN bun install
+FROM node-base as build-deps
+RUN bun install --frozen-lockfile
 
-FROM build-deps AS builder
+FROM build-deps as builder
 COPY . .
 RUN bun run build
 
